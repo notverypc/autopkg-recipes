@@ -59,10 +59,8 @@ class Slacker(Processor):
         webhook_url = self.env.get("webhook_url")
 
         # Slack Custom Settings
-        CHANNEL = "macs-notifications"
         ICONEMOJI = ":ghost:"
         AUTOPKGICON = "https://avatars0.githubusercontent.com/u/5170557?s=200&v=4"
-        FALLBACK_TEXT = "Fallback Test"
         USERNAME = "AutoPKG"
 
         if was_imported:
