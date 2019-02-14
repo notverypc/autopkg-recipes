@@ -1,0 +1,165 @@
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Description</key>
+	<string>
+		This recipe is based on the Office 365 recipes by dataJAR (https://github.com/autopkg/dataJAR-recipes) and the Pull Request from aysiu.
+		This recipe downloads and imports the full installer pkg for Microsoft Outlook 365 into Munki and using the "installer_choices_xml" not to install MAU.
+		This is accomplished via the Office 365 recipes from rtrouton-recipes.
+		These in turn, utilise the fwlink's found on macadmins.software
+	</string>
+	<key>Identifier</key>
+	<string>com.github.notverypc.autopkg-recipes.munki.MicrosoftOutlook365</string>
+	<key>Input</key>
+	<dict>
+		<key>NAME</key>
+		<string>MicrosoftOutlook365</string>
+		<key>PRODUCTID</key>
+		<string>525137</string>
+		<key>DOWNLOADURL</key>
+		<string>https://go.microsoft.com/fwlink/?linkid=%PRODUCTID%</string>
+		<key>MUNKI_REPO_SUBDIR</key>
+		<string>apps/microsoft/o365</string>
+		<key>MINIMUM_OS_VERSION</key>
+		<string>10.12.0</string>
+		<key>pkginfo</key>
+		<dict>
+			<key>blocking_applications</key>
+			<array>
+				<string>Microsoft Auto Update</string>
+				<string>Microsoft Error Reporting</string>
+				<string>Microsoft Outlook</string>
+			</array>
+			<key>catalogs</key>
+			<array>
+				<string>ben-dev</string>
+			</array>
+			<key>description</key>
+			<string>Whether it's staying on top of your inbox or scheduling the next big thing, Outlook makes it easy to be your most productive, organised and connected self – at home, at work and everywhere in between.</string>
+			<key>display_name</key>
+			<string>Microsoft Outlook</string>
+			<key>name</key>
+			<string>%NAME%</string>
+			<key>developer</key>
+			<string>Microsoft</string>
+			<key>category</key>
+			<string>Office</string>
+			<key>icon_name</key>
+			      <string>MSOutlook.png</string>
+            <key>installer_choices_xml</key>
+            <array>
+             <dict>
+              <key>attributeSetting</key>
+              <integer>1</integer>
+              <key>choiceAttribute</key>
+              <string>selected</string>
+              <key>choiceIdentifier</key>
+              <string>com.microsoft.Outlook</string>
+             </dict>
+             <dict>
+              <key>attributeSetting</key>
+              <integer>0</integer>
+              <key>choiceAttribute</key>
+              <string>selected</string>
+              <key>choiceIdentifier</key>
+              <string>com.microsoft.autoupdate</string>
+             </dict>
+            </array>
+			<key>unattended_install</key>
+			<true/>
+			<key>unattended_uninstall</key>
+			<true/>
+			<key>uninstall_method</key>
+			<string>remove_app</string>
+			<key>uninstallable</key>
+			<true/>
+		</dict>
+	</dict>
+	<key>MinimumVersion</key>
+	<string>1.0.0</string>
+	<key>ParentRecipe</key>
+	<string>com.github.rtrouton.pkg.microsoftoutlook365</string>
+	<key>Process</key>
+	<array>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>flat_pkg_path</key>
+				<string>%pathname%</string>
+				<key>destination_path</key>
+				<string>%RECIPE_CACHE_DIR%/pkg_unpack</string>
+				<key>purge_destination</key>
+				<true/>
+			</dict>
+			<key>Processor</key>
+			<string>FlatPkgUnpacker</string>
+		</dict>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>pkgroot</key>
+				<string>%RECIPE_CACHE_DIR%/application_payload/Applications</string>
+				<key>pkgdirs</key>
+				<dict/>
+			</dict>
+			<key>Processor</key>
+			<string>PkgRootCreator</string>
+		</dict>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>pkg_payload_path</key>
+				<string>%RECIPE_CACHE_DIR%/pkg_unpack/Microsoft_Outlook.pkg/Payload</string>
+				<key>destination_path</key>
+				<string>%RECIPE_CACHE_DIR%/application_payload/Applications</string>
+				<key>purge_destination</key>
+				<true/>
+			</dict>
+			<key>Processor</key>
+			<string>PkgPayloadUnpacker</string>
+		</dict>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>faux_root</key>
+				<string>%RECIPE_CACHE_DIR%/application_payload</string>
+				<key>installs_item_paths</key>
+				<array>
+					<string>/Applications/Microsoft Outlook.app</string>
+				</array>
+			</dict>
+			<key>Processor</key>
+			<string>MunkiInstallsItemsCreator</string>
+		</dict>
+		<dict>
+			<key>Processor</key>
+			<string>MunkiPkginfoMerger</string>
+		</dict>
+		<dict>
+			<key>Processor</key>
+			<string>MunkiPkginfoMerger</string>
+			<key>Arguments</key>
+			<dict>
+				<key>additional_pkginfo</key>
+				<dict>
+					<key>minimum_os_version</key>
+					<string>%MINIMUM_OS_VERSION%</string>
+				</dict>
+			</dict>
+		</dict>
+		<dict>
+			<key>Processor</key>
+			<string>MunkiImporter</string>
+			<key>Arguments</key>
+			<dict>
+				<key>pkg_path</key>
+				<string>%pkg_path%</string>
+				<key>repo_subdirectory</key>
+				<string>%MUNKI_REPO_SUBDIR%</string>
+			</dict>
+		</dict>
+	</array>
+</dict>
+</plist>
