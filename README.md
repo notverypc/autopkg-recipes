@@ -16,3 +16,8 @@ AUTOPKGICON = "https://avatars0.githubusercontent.com/u/5170557?s=200&v=4"
 ICONEMOJI=":ghost:"
 USERNAME = "AutoPKG"
 ```
+## Microsoft Office Recipes
+These recipes are based on the Office 365 recipes by dataJAR (https://github.com/autopkg/dataJAR-recipes) and the Pull Request from aysiu.
+These recipes download and import the full installer pkgs for Microsoft Office 365 apps into Munki and using the "installer_choices_xml" not to install MAU.
+This is accomplished via the Office 365 recipes from rtrouton-recipes.
+These in turn, utilise the fwlink's found on macadmins.software
