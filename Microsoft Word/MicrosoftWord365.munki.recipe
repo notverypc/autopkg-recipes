@@ -34,7 +34,7 @@
 			</array>
 			<key>catalogs</key>
 			<array>
-				<string>ben-dev</string>
+				<string>testing</string>
 			</array>
 			<key>description</key>
 			<string>The Word you want. State-of-the-art editing, reviewing, and sharing tools make creating and polishing documents easy.</string>
@@ -46,8 +46,6 @@
 			<string>Microsoft</string>
 			<key>category</key>
 			<string>Office</string>
-			<key>icon_name</key>
-			      <string>MSWord.png</string>
             <key>installer_choices_xml</key>
             <array>
              <dict>

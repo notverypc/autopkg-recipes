@@ -34,7 +34,7 @@
 			</array>
 			<key>catalogs</key>
 			<array>
-				<string>ben-dev</string>
+				<string>testing</string>
 			</array>
 			<key>description</key>
 			<string>Whether it's staying on top of your inbox or scheduling the next big thing, Outlook makes it easy to be your most productive, organised and connected self – at home, at work and everywhere in between.</string>
@@ -46,8 +46,6 @@
 			<string>Microsoft</string>
 			<key>category</key>
 			<string>Office</string>
-			<key>icon_name</key>
-			      <string>MSOutlook.png</string>
             <key>installer_choices_xml</key>
             <array>
              <dict>

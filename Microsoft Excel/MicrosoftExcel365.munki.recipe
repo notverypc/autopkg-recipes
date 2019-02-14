@@ -34,7 +34,7 @@
 			</array>
 			<key>catalogs</key>
 			<array>
-				<string>ben-dev</string>
+				<string>testing</string>
 			</array>
 			<key>description</key>
 			<string>See your data in new, intuitive ways. Powerful charts, graphs, and keyboard shortcuts turn columns of numbers into valuable information, so you can work easier.</string>
@@ -46,8 +46,6 @@
 			<string>Microsoft</string>
 			<key>category</key>
 			<string>Office</string>
-			<key>icon_name</key>
-			      <string>MSExcel.png</string>
             <key>installer_choices_xml</key>
             <array>
              <dict>

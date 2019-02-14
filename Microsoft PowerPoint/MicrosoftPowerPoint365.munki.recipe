@@ -34,7 +34,7 @@
 			</array>
 			<key>catalogs</key>
 			<array>
-				<string>ben-dev</string>
+				<string>testing</string>
 			</array>
 			<key>description</key>
 			<string>Communicate with confidence. PowerPoint for Mac makes it easy to create, collaborate and effectively present your ideas.</string>
@@ -46,8 +46,6 @@
 			<string>Microsoft</string>
 			<key>category</key>
 			<string>Office</string>
-			<key>icon_name</key>
-			      <string>MSPowerPoint.png</string>
             <key>installer_choices_xml</key>
             <array>
              <dict>

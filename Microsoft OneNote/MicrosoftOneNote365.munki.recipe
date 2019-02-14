@@ -34,7 +34,7 @@
 			</array>
 			<key>catalogs</key>
 			<array>
-				<string>ben-dev</string>
+				<string>testing</string>
 			</array>
 			<key>description</key>
 			<string>Do you scribble great ideas on serviettes and sticky notes? Is precise filing more your style? OneNote's got you covered whatever way you shape your thoughts. Type, write or draw with the free-form feel of pen to paper. Search and clip from the web to picture ideas.</string>
@@ -46,8 +46,6 @@
 			<string>Microsoft</string>
 			<key>category</key>
 			<string>Office</string>
-			<key>icon_name</key>
-			      <string>MSOneNote.png</string>
             <key>installer_choices_xml</key>
             <array>
              <dict>
