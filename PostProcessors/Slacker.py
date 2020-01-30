@@ -62,6 +62,7 @@ class Slacker(Processor):
         ICONEMOJI = ":ghost:"
         AUTOPKGICON = "https://avatars0.githubusercontent.com/u/5170557?s=200&v=4"
         USERNAME = "AutoPKG"
+        CHANNEL = "#channel"
 
         if was_imported:
             name = self.env.get("munki_importer_summary_result")["data"]["name"]
