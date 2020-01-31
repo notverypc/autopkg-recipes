@@ -71,7 +71,7 @@ class Slacker(Processor):
             pkginfo_path = self.env.get("munki_importer_summary_result")["data"]["pkginfo_path"]
             catalog = self.env.get("munki_importer_summary_result")["data"]["catalogs"]
             if name:
-                slack_text = "*New item added to repo:*\nTitle: *%s*\nVersion: *%s*\nCatalog: *%s\n*Pkg Path: *%s*\nPkginfo Path: *%s*" % (name, version, catalog, pkg_path, pkginfo_path)
+                slack_text = "*New item added to repo:*\nTitle: *%s*\nVersion: *%s*\nCatalog: *%s*\nPkg Path: *%s*\nPkginfo Path: *%s*" % (name, version, catalog, pkg_path, pkginfo_path)
                 slack_data = {'text': slack_text, 'channel': CHANNEL, 'icon_url': AUTOPKGICON, 'username': USERNAME}
 
                 response = requests.post(
