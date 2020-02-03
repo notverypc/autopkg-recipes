@@ -22,6 +22,7 @@ The webhook and channel name are now called from an environment variable, thanks
 Example:
 ```
 /usr/local/bin/autopkg run <your_recipe_list> --post="com.github.notverypc.autopkg-recipes.postprocessors/Slacker" --key webhook_url="Your_Slack_webhook" --key slack_channel="your_preferred_slack_channel"
+```
 
 ## Microsoft Office Recipes
 These recipes are based on the Office 365 recipes by dataJAR (https://github.com/autopkg/dataJAR-recipes) and the Pull Request from aysiu.
