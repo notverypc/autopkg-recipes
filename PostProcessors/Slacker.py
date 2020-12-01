@@ -14,12 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from autopkglib import Processor, ProcessorError
-
 import subprocess
-import os.path
-import json
-import requests
+from autopkglib import Processor, ProcessorError
 
 # Set the webhook_url to the one provided by Slack when you create the webhook at https://my.slack.com/services/new/incoming-webhook/
 
@@ -46,7 +42,12 @@ class Slacker(Processor):
         "webhook_url": {
             "required": False,
             "description": ("Slack webhook.")
-        }
+        },
+        "CURL_PATH": {
+            "required": False,
+            "default": "/usr/bin/curl",
+            "description": "Path to curl binary. Defaults to /usr/bin/curl.",
+        },
     }
     output_variables = {
     }
@@ -57,12 +58,6 @@ class Slacker(Processor):
         was_imported = self.env.get("munki_repo_changed")
         munkiInfo = self.env.get("munki_info")
         webhook_url = self.env.get("webhook_url")
-        slack_channel = self.env.get("slack_channel")
-
-        # Slack Custom Settings
-        ICONEMOJI = ":ghost:"
-        AUTOPKGICON = "https://avatars0.githubusercontent.com/u/5170557?s=200&v=4"
-        USERNAME = "AutoPKG"
 
         if was_imported:
             name = self.env.get("munki_importer_summary_result")["data"]["name"]
@@ -72,15 +67,19 @@ class Slacker(Processor):
             catalog = self.env.get("munki_importer_summary_result")["data"]["catalogs"]
             if name:
                 slack_text = "*New item added to repo:*\nTitle: *%s*\nVersion: *%s*\nCatalog: *%s*\nPkg Path: *%s*\nPkginfo Path: *%s*" % (name, version, catalog, pkg_path, pkginfo_path)
-                slack_data = {'text': slack_text, 'channel': slack_channel, 'icon_url': AUTOPKGICON, 'username': USERNAME}
-
-                response = requests.post(
-                webhook_url, json=slack_data)
-                if response.status_code != 200:
-                    raise ValueError(
-                                'Request to slack returned an error %s, the response is:\n%s'
-                                % (response.status_code, response.text)
-                                )
+                slack_data = {'text': slack_text}
+            try:
+                cmd = [self.env['CURL_PATH'], '--silent', '--request', 'POST']
+                cmd.extend(['--header', "\'Content-type: application/json\'"])
+                for k in slack_data:
+                    cmd.extend(['--data', '{\"%s\":\"%s\"}' % (k, slack_data[k])])
+                cmd.append(webhook_url)
+                proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                (stdout, stderr) = proc.communicate()
+                if proc.returncode:
+                    raise ProcessorError('Could not post to: {}\ncurl stdout: {}\ncurl stderr: {}' % (webhook_url, stdout, stderr))
+            except OSError:
+                raise ProcessorError('Could not post to: {}' % (webhook_url))
 
 
 if __name__ == "__main__":
