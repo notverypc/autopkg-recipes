@@ -6,7 +6,7 @@
     <string>Recipe stub for any Processors in this directory.
     </string>
     <key>Identifier</key>
-    <string>com.github.notverypc.autopkg-recipes.postprocessors</string>
+    <string>com.github.coreyramirezgomez.autopkg-recipes.postprocessors</string>
     <key>Input</key>
     <dict/>
     <key>MinimumVersion</key>
