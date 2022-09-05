@@ -41,48 +41,42 @@ class SlackPostCurl(URLGetter):
     input_variables = {
         "munki_info": {
             "required": False,
-            "description": "Munki info dictionary to use to display info.",
+            "description": ("Munki info dictionary to use to display info.")
         },
         "munki_repo_changed": {
             "required": False,
-            "description": "Whether or not item was imported.",
+            "description": ("Whether or not item was imported.")
         },
         "slack_channel": {
-            "description": "Slack channel (for overriding the default).",
             "required": False,
+            "description": ("Slack channel for overriding the default.")
         },
         "slack_icon_emoji": {
-            "description": "Slack display emoji markup.",
             "required": False,
+            "description": ("Slack display emoji markup.")
         },
         "slack_icon_url": {
             "default": "",
-            "description": "Slack display icon URL.",
             "required": False,
+            "description": ("Slack display icon URL.")
         },
         "slack_username": {
             "default": "AutoPKG",
-            "description": "Slack message display name.",
             "required": False,
+            "description": ("Slack message display name.")
         },
-        "webhook_url": {"description": "Slack webhook.", "required": True},
+        "webhook_url": {
+            "required": False,
+            "description": ("Slack webhook.")
+        },
     }
     output_variables = {}
-
-    def slack_status_check(self, proc_stdout):
-        """Return a message dependent on the HTTP response"""
-        if proc_stdout == "ok":
-            self.output("Slack webhook sent successfully")
-            return "break"
-        else:
-            self.output("WARNING: Slack webhook failed to send")
-            self.output(proc_stdout, verbose_level=2)
 
     def main(self):
         was_imported = self.env.get("munki_repo_changed")
         munkiInfo = self.env.get("munki_info")
         webhook_url = self.env.get("webhook_url")
-        slack_channel = self.env.get("slack_channel")
+        slack_channel = self.env.get("slack_channel") or ""
         slack_icon_emoji = self.env.get("slack_icon_emoji") or ""
         slack_icon_url = self.env.get("slack_icon_url") or ""
         slack_username = self.env.get("slack_username")
@@ -118,37 +112,33 @@ class SlackPostCurl(URLGetter):
 
                 json_data = json.dumps(slack_data)
 
-            # Build the headers
-            count = 0
-            while True:
-                count += 1
-                self.output("Slack webhook post attempt {}".format(
-                    count), verbose_level=2)
-                curl_cmd = [
-                    self.curl_binary(),
-                    "--data",
-                    json_data,
-                    "--header",
-                    "Content-Type: application/json",
-                    "--request",
-                    "POST",
-                    "--show-error",
-                    "--silent",
-                    webhook_url,
-                ]
-                (
-                    proc_stdout,
-                    proc_stderr,
-                ) = self.execute_curl(curl_cmd)
-                # check HTTP response
-                if self.slack_status_check(proc_stdout) == "break":
-                    break
-                if count >= 5:
-                    self.output(
-                        "Slack webhook send did not succeed after 5 attempts")
-                    self.output(f"HTTP Response: {proc_stderr}")
-                    raise ProcessorError("ERROR: Slack webhook failed to send")
-                sleep(10)
+        # Build the required curl switches
+        curl_opts = [
+            # "--request", "POST",
+            "--data",
+            json_data,
+            "--header",
+            "Content-Type: application/json",
+            "--request",
+            "POST",
+            "--show-error",
+            "--silent",
+            "{}".format(self.env.get("webhook_url")),
+        ]
+
+        # print("Curl options are:", curl_opts)
+
+        # Initialize the curl_cmd, add the curl options, and execute the curl  # noqa
+        try:
+            curl_cmd = self.prepare_curl_cmd()
+            # self.add_curl_headers(curl_cmd, headers)
+            curl_cmd.extend(curl_opts)
+            # print("Curl command is:", curl_cmd)
+            response = self.download_with_curl(curl_cmd)
+            print(response)
+
+        except:
+            raise ProcessorError("Failed to complete the post")  # noqa
 
 
 if __name__ == "__main__":
