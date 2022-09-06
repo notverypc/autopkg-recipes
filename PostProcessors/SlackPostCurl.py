@@ -112,33 +112,33 @@ class SlackPostCurl(URLGetter):
 
                 json_data = json.dumps(slack_data)
 
-        # Build the required curl switches
-        curl_opts = [
-            # "--request", "POST",
-            "--data",
-            json_data,
-            "--header",
-            "Content-Type: application/json",
-            "--request",
-            "POST",
-            "--show-error",
-            "--silent",
-            "{}".format(self.env.get("webhook_url")),
-        ]
+                # Build the required curl switches
+                curl_opts = [
+                    # "--request", "POST",
+                    "--data",
+                    json_data,
+                    "--header",
+                    "Content-Type: application/json",
+                    "--request",
+                    "POST",
+                    "--show-error",
+                    "--silent",
+                    "{}".format(self.env.get("webhook_url")),
+                ]
 
-        # print("Curl options are:", curl_opts)
+                # print("Curl options are:", curl_opts)
 
-        # Initialize the curl_cmd, add the curl options, and execute the curl  # noqa
-        try:
-            curl_cmd = self.prepare_curl_cmd()
-            # self.add_curl_headers(curl_cmd, headers)
-            curl_cmd.extend(curl_opts)
-            # print("Curl command is:", curl_cmd)
-            response = self.download_with_curl(curl_cmd)
-            print(response)
+                # Initialize the curl_cmd, add the curl options, and execute the curl  # noqa
+                try:
+                    curl_cmd = self.prepare_curl_cmd()
+                    # self.add_curl_headers(curl_cmd, headers)
+                    curl_cmd.extend(curl_opts)
+                    # print("Curl command is:", curl_cmd)
+                    response = self.download_with_curl(curl_cmd)
+                    # print(response)
 
-        except:
-            raise ProcessorError("Failed to complete the post")  # noqa
+                except:
+                    raise ProcessorError("Failed to complete the post")  # noqa
 
 
 if __name__ == "__main__":
