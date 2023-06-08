@@ -1,4 +1,4 @@
-# autopkg-recipes
+¡# autopkg-recipes
 
 ## SlackPostCurl
 This is a replacement for my previous Slacker PostProcessor. It has no dependencies and works with AutoPKG 2.7
