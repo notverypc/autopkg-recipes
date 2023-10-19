@@ -52,3 +52,6 @@ These recipes download and import the full installer pkgs for Microsoft Office 3
 This is accomplished via the Office 365 recipes from rtrouton-recipes.
 
 These in turn, utilise the fwlink's found on macadmins.software
+
+## Shottr and Syntax Highlight
+These have been removed as there are better recipes available.
